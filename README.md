@@ -19,9 +19,7 @@ https://github.com/VicCAlq/2c-t2-n2
 A N2 será para as disciplinas Frontend e POO. Vocês trabalharão com os grupos de PI (sem o pessoal de design). Cada grupo tem sua própria branch.
 
 Antes de desenvolver, instale as dependências com o comando `npm install` de dentro da pasta raiz do projeto (onde a pasta `src` se encontra).
-Para executar o projeto abra dois terminais:
-- Abra o frontend com o comando `npm run front` da mesma pasta da instrução anterior.
-- Abra o backend com o comando `npm run back` da mesma pasta da instrução anterior.
+Para executar o projeto execute o comando `npm run dev`
 
 O objetivo da N2 é desenvolver um agregador de notícias:
 
