@@ -3,3 +3,5 @@ export default function Exemplo({ children }) {
     <h2>{children}</h2>
   </>)
 }
+
+//teste
