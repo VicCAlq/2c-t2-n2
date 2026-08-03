@@ -7,3 +7,5 @@
 - **Canvas Confetti** — Efeito de confete
 - **DOMParser** — Interpretação de RSS
 - **LocalStorage (API nativa LocalStorage)** — Salvamento de dados
+
+                  manuscriptssss.vercel.app
