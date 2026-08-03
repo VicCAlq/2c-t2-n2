@@ -1,101 +1,163 @@
-const PROXY = 'https://corsproxy.io/?url='
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-assignment */
+import { FonteNoticia } from '../models/FonteNoticia';
+import { Noticia } from '../models/Noticia';
 
-async function fetchComProxy(endereco) {
-  let erroMaisRecente = null;
+const PROXY = 'https://corsproxy.io/?url=';
 
-    try {
-      const proxyEndereco = PROXY + encodeURIComponent(endereco);
-      const resposta = await fetch(proxyEndereco, {
-        headers: {
-          'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-        },
-      });
-
-      if (!resposta.ok) {
-        erroMaisRecente = new Error(`HTTP ${resposta.status}`);
-      }
-
-      const texto = await resposta.text();
-      return texto;
-
-    } catch (err) {
-      erroMaisRecente = err;
-    }
-
-  throw erroMaisRecente || new Error('Não foi possível carregar o feed. Verifique a Endereco e tente novamente.');
+function decodificarTexto(str) {
+  if (!str) return '';
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value.trim();
 }
 
-function lerRSS(textoXML) {
+function limparHTML(htmlStr) {
+  if (!htmlStr) return '';
+  const tmp = document.createElement('div');
+  tmp.innerHTML = htmlStr;
+  const textoLimpo = tmp.textContent || tmp.innerText || '';
+  return decodificarTexto(textoLimpo);
+}
+
+async function fetchComProxy(endereco) {
+  
+  let erroMaisRecente = null;
+
+  try {
+    const proxyEndereco = PROXY + encodeURIComponent(endereco);
+    const resposta = await fetch(proxyEndereco, {
+      headers: {
+        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
+      },
+    });
+
+    if (!resposta.ok) {
+      erroMaisRecente = new Error(`HTTP status ${resposta.status}`);
+    } else {
+      const texto = await resposta.text();
+      return texto;
+    }
+  } catch (err) {
+    erroMaisRecente = err;
+  }
+
+  try {
+    const resposta = await fetch(endereco);
+    if (resposta.ok) {
+      return await resposta.text();
+    }
+  // eslint-disable-next-line no-empty
+  } catch (e) {
+  }
+
+  throw erroMaisRecente || new Error('Não foi possível carregar o feed. Verifique o endereço URL.');
+}
+
+function lerRSS(textoXML, urlOrigem, categoriaManual = '') {
   const parser = new DOMParser();
   const doc = parser.parseFromString(textoXML, 'text/xml');
 
   const parseErro = doc.querySelector('parsererror');
   if (parseErro) {
-    throw new Erro('XML inválido: não foi possível parsear o feed.');
+    throw new Error('XML inválido: não foi possível ler a estrutura do RSS feed.');
   }
 
   const formatoAtom = doc.documentElement.nodeName === 'feed';
 
   let titulo = '';
   let descricao = '';
-  let link = '';
-  let noticias = [];
+  let link = urlOrigem;
+  let noticiasArray = [];
 
   if (formatoAtom) {
-    titulo = doc.querySelector('feed > title')?.textContent || '';
-    descricao = doc.querySelector('feed > subtitle')?.textContent || '';
-    link = doc.querySelector('feed > link[rel="alternate"]')?.getAttribute('href') ||
-           doc.querySelector('feed > link:not([rel])')?.getAttribute('href') || '';
+    titulo = decodificarTexto(doc.querySelector('feed > title')?.textContent) || 'Fonte RSS';
+    descricao = decodificarTexto(doc.querySelector('feed > subtitle')?.textContent) || 'Feed de notícias Atom';
+    const altLink = doc.querySelector('feed > link[rel="alternate"]')?.getAttribute('href') ||
+                     doc.querySelector('feed > link:not([rel])')?.getAttribute('href');
+    if (altLink) link = altLink;
 
-    const valores = doc.querySelectorAll('entry');
-    noticias = Array.from(valores).map(valor => {
-      const valorLink = valor.querySelector('link[rel="alternate"]')?.getAttribute('href') ||
-                        valor.querySelector('link:not([rel])')?.getAttribute('href') || '';
-      const content = valor.querySelector('content')?.textContent || '';
-      const summary = valor.querySelector('summary')?.textContent || '';
+    const entries = doc.querySelectorAll('entry');
+    entries.forEach(entry => {
+      let valorLink = entry.querySelector('link[rel="alternate"]')?.getAttribute('href') ||
+                        entry.querySelector('link:not([rel])')?.getAttribute('href') ||
+                        entry.querySelector('link')?.getAttribute('href') ||
+                        entry.querySelector('id')?.textContent || urlOrigem;
+      
+      valorLink = valorLink.trim();
 
-      return {
-        titulo: valor.querySelector('title')?.textContent || 'Sem título',
-        link: valorLink,
-        descricao: summary || content,
-        dataPublicacao: valor.querySelector('updated')?.textContent || valor.querySelector('published')?.textContent || new Date().toISOString(),
-        categorias: Array.from(valor.querySelectorAll('category')).map(c => c.getAttribute('term') || c.textContent).filter(Boolean),
-      };
+      const content = entry.querySelector('content')?.textContent || '';
+      const summary = entry.querySelector('summary')?.textContent || '';
+      const cat = entry.querySelector('category')?.getAttribute('term') || entry.querySelector('category')?.textContent || categoriaManual || 'Geral';
+
+      const descTexto = limparHTML(summary || content).substring(0, 280);
+
+      noticiasArray.push({
+        nome: decodificarTexto(entry.querySelector('title')?.textContent) || 'Sem título',
+        endereco: valorLink,
+        descricao: descTexto || 'Sem descrição disponível.',
+        dataDePublicacao: entry.querySelector('updated')?.textContent || entry.querySelector('published')?.textContent || new Date().toISOString(),
+        categoria: cat || 'Geral'
+      });
     });
   } else {
     const canal = doc.querySelector('channel') || doc.documentElement;
-    titulo = canal.querySelector('title')?.textContent || '';
-    descricao = canal.querySelector('description')?.textContent || '';
-    link = canal.querySelector('link')?.textContent || '';
+    titulo = decodificarTexto(canal.querySelector('title')?.textContent) || 'Fonte RSS';
+    descricao = decodificarTexto(canal.querySelector('description')?.textContent) || 'Feed de notícias RSS';
+    const canalLink = canal.querySelector('link')?.textContent;
+    if (canalLink) link = canalLink.trim();
 
-    const elementosnoticias = doc.querySelectorAll('item');
-    noticias = Array.from(elementosnoticias).map(item => {
+    const itens = doc.querySelectorAll('item');
+    itens.forEach(item => {
+      let itemLink = item.querySelector('link')?.textContent?.trim();
+      const guid = item.querySelector('guid')?.textContent?.trim();
+
+      if (!itemLink || !itemLink.startsWith('http')) {
+        if (guid && guid.startsWith('http')) {
+          itemLink = guid;
+        } else {
+          itemLink = urlOrigem;
+        }
+      }
+
       const itemDesc = item.querySelector('description')?.textContent || '';
-      const conteudoArmazenado = item.querySelector('content\\:encoded, encoded')?.textContent || '';
+      const conteudoEncoded = item.querySelector('content\\:encoded, encoded')?.textContent || '';
 
-      const tmp = document.createElement('div');
-      tmp.innerHTML = conteudoArmazenado || itemDesc;
-      const descricaoFormatada = tmp.textContent || tmp.innerText || '';
+      const descTexto = limparHTML(conteudoEncoded || itemDesc).substring(0, 280);
+      const catElem = item.querySelector('category')?.textContent;
+      const cat = catElem || categoriaManual || 'Geral';
 
-      return {
-        titulo: item.querySelector('title')?.textContent || 'Sem título',
-        link: item.querySelector('link')?.textContent || '',
-        descricao: descricaoFormatada.substring(0, 500),
-        dataPublicacao: item.querySelector('pubDate')?.textContent || item.querySelector('dc\\:date, date')?.textContent || new Date().toISOString(),
-        categorias: Array.from(item.querySelectorAll('category')).map(c => c.textContent).filter(Boolean),
-      };
+      noticiasArray.push({
+        nome: decodificarTexto(item.querySelector('title')?.textContent) || 'Sem título',
+        endereco: itemLink,
+        descricao: descTexto || 'Sem descrição disponível.',
+        dataDePublicacao: item.querySelector('pubDate')?.textContent || item.querySelector('dc\\:date, date')?.textContent || new Date().toISOString(),
+        categoria: cat || 'Geral'
+      });
     });
   }
 
+  const categoriaFonte = categoriaManual || (noticiasArray[0]?.categoria) || 'Tecnologia';
+  const fonteObj = new FonteNoticia(titulo, link, descricao, categoriaFonte);
+
+  const noticiasInstancias = noticiasArray.slice(0, 30).map(n => 
+    new Noticia(
+      n.nome,
+      n.endereco,
+      n.descricao,
+      n.dataDePublicacao,
+      n.categoria,
+      fonteObj.nome
+    )
+  );
+
   return {
-    titulo: title || 'Sem título',
-    descricao: description || '',
-    link: link || '',
-    noticias: noticias.slice(0, 50),
+    fonte: fonteObj,
+    noticias: noticiasInstancias
   };
 }
 
-export async function baixarFeedRSS(url) {
+export async function baixarFeedRSS(url, categoriaManual = '') {
   const textoXML = await fetchComProxy(url);
-  return lerRSS(textoXML);
+  return lerRSS(textoXML, url, categoriaManual);
 }
