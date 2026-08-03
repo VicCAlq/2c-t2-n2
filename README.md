@@ -2,10 +2,12 @@
 
 - **Framer Motion** — Animações
 - **Lucide React** — Ícones
-- **Date-fns** — Manipulação de datas
+- **date-fns** — Manipulação de datas
 - **Sonner** — Toasts (notificações)
-- **Canvas Confetti** — Efeito de confete
+- **canvas-confetti** — Efeito de confete
 - **DOMParser** — Interpretação de RSS
-- **LocalStorage (API nativa LocalStorage)** — Salvamento de dados
+- **LocalStorage (API nativa)** — Salvamento de dados
 
-                  manuscriptssss.vercel.app
+## Projeto
+
+         **https://manuscriptssss.vercel.app**
