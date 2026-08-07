@@ -12,8 +12,14 @@
     "test-json": "timeout --signal=SIGKILL 60s npx vitest run --reporter=json --output-file=./resultado.json --pool=forks --testTimeout=60000 || true"
   },
   "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "date-fns": "^4.4.0",
+    "framer-motion": "^12.43.0",
+    "idb": "^8.0.3",
+    "lucide-react": "^1.28.0",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "sonner": "^2.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
