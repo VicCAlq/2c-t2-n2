@@ -1,4 +1,4 @@
-class FonteNoticias {
+export default class FonteNoticias {
     constructor(nome, endereco, descricao, categoria) {
         this.nome = nome
         this.endereco = endereco

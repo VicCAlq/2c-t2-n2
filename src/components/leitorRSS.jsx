@@ -1,7 +1,7 @@
 const PROXY = 'https://corsproxy.io/?url='
 
 async function fetchComProxy(endereco) {
-  let erroMaisRecente = null;
+  let erroMaisRecente;
 
     try {
       const proxyEndereco = PROXY + encodeURIComponent(endereco);
@@ -31,15 +31,15 @@ function lerRSS(textoXML) {
 
   const parseErro = doc.querySelector('parsererror');
   if (parseErro) {
-    throw new Erro('XML inválido: não foi possível parsear o feed.');
+    throw new Error('XML inválido: não foi possível parsear o feed.');
   }
 
   const formatoAtom = doc.documentElement.nodeName === 'feed';
 
-  let titulo = '';
-  let descricao = '';
-  let link = '';
-  let noticias = [];
+  let titulo;
+  let descricao;
+  let link;
+  let noticias;
 
   if (formatoAtom) {
     titulo = doc.querySelector('feed > title')?.textContent || '';
@@ -88,8 +88,8 @@ function lerRSS(textoXML) {
   }
 
   return {
-    titulo: title || 'Sem título',
-    descricao: description || '',
+    titulo: titulo || 'Sem título',
+    descricao: descricao || '',
     link: link || '',
     noticias: noticias.slice(0, 50),
   };

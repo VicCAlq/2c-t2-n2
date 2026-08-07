@@ -1,0 +1,24 @@
+#botao-nova-fonte {
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 2px rgb(210, 248, 255) ridge;
+    border-radius: 10px;
+}
+
+form {
+    height: 0;
+    color: white;
+    background-color: rgb(69, 85, 92);
+    overflow: hidden;
+    transition-duration: 0.3s;
+}
+form.ativo {
+    height: 100px;
+    padding: 5px;
+    border: 2px rgb(210, 248, 255) groove;
+    border-radius: 10px;
+}
+
+label {
+    display: block;
+}
