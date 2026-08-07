@@ -6,6 +6,7 @@ export default function Exemplo({ children }) {
   const [feed, setFeed] = useState("O feed RSS vai aparecer aqui")
   const [fonte, setFonte] = useState("A fonte de notícias vai aparecer aqui")
   const [carregando, setCarregando] = useState("")
+  const [endereco, setEndereco] = useState("")
 
   async function exibirFeed(endereco) {
     setFeed("")
@@ -14,36 +15,42 @@ export default function Exemplo({ children }) {
     await baixarFeedRSS(endereco)
     .then(res => {
       console.log(res)
-      // setFeed(JSON.stringify(res.noticias))
-      setFonte(<div>
-        <p>Título: {res.fonte.titulo}</p>
-        <p>Link: {res.fonte.link}</p>
-        <p>Descrição: {res.fonte.descricao}</p>
+      setFeed(<div style={{ margin: "20px auto", borderRadius: "10px", backgroundColor: "teal"}}>
+        {res.noticias.map(noticia => {
+          <div
+            style={{backgroundColor: "#aaa", width: "80vw", padding: "5px"}}
+          >
+            <p>{res.fonte.titulo}</p>
+            <h3>{noticia.titulo}</h3>
+          </div>
+        })}
       </div>)
+      // setFonte(<div>
+      //   <p>Título: {res.fonte.titulo}</p>
+      //   <p>Link: {res.fonte.link}</p>
+      //   <p>Descrição: {res.fonte.descricao}</p>
+      // </div>)
     })
     setCarregando("")
   }
 
   return(<>
     <h2>{children}</h2>
+    <input
+      type="text"
+      onChange={(e) => setEndereco(e.target.value)}
+    />
     <button
       onClick={() => {
         setFeed("")
         setFonte("")
         setCarregando(<h2>Carregando feed</h2>)
-        exibirFeed('https://g1.globo.com/dynamo/natureza/rss2.xml&#39;)
+        exibirFeed(endereco)
       }}
-    >Globo</button>
-    <button
-      onClick={() => {
-        setFeed("")
-        setFonte("")
-        setCarregando(<h2>Carregando feed</h2>)
-        exibirFeed('http://tecnologia.uol.com.br/ultnot/index.xml&#39;)}}
-    >UOL</button>
+    >Importar feed</button>
     {carregando}
-    <p>{fonte}</p>
-    <p>{feed}</p>
+    {feed}
   </>)
-
 }
+
+
