@@ -36,9 +36,9 @@ export default function Exemplo({ children }) {
     >Globo</button>
     <button
       onClick={() => {
-        setFeed("")
+        setFeed("Noticias de ultima hora")
         setFonte("")
-        setCarregando(<h2>Carregando feed</h2>)
+        setCarregando(<h2>Carregando feed...</h2>)
         exibirFeed('http://tecnologia.uol.com.br/ultnot/index.xml&#39')}}
     >UOL</button>
     {carregando}
