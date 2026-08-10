@@ -1,4 +1,6 @@
+import { listarNoticias } from "./components/database";
 import Exemplo from "./components/Exemplo";
+import TabelaNoticias from "./components/TabelaNoticias";
 
 const styles = {
   container: {
@@ -25,6 +27,7 @@ export default function App() {
     <div style={styles.container}>
       <h1 style={styles.divTitulo}>Notícias Do Amanhã!</h1>
       <Exemplo>Veja Notícias Novas!</Exemplo>
+      <TabelaNoticias noticias={listarNoticias()}/>
     </div>
   );
 }
