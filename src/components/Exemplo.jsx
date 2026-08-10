@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { baixarFeedRSS } from "./leitorRSS"
+import { adicionarNoticia } from "./database"
+import { Noticia } from "./ClassesCriadas"
 
 export default function Exemplo({ children }) {
 
@@ -14,6 +16,24 @@ export default function Exemplo({ children }) {
     setCarregando(<h2>Carregando feed</h2>)
     await baixarFeedRSS(endereco)
     .then(res => {
+
+    const listaDeNoticias = res.noticias
+
+      for(let noticia of listaDeNoticias){
+        const novaNoticia = new Noticia(
+          noticia.titulo,
+          res.fonte.titulo,
+          noticia.link,
+          noticia.descricao,
+          noticia.dataPublicacao,
+          noticia.categorias
+        )
+
+        adicionarNoticia(novaNoticia)
+      }
+      
+      
+
       console.log(res)
       setFeed(<div style={{ margin: "20px auto", borderRadius: "10px", backgroundColor: "teal"}}>
         {res.noticias.map(noticia => {
