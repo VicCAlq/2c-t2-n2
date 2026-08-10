@@ -1,8 +1,5 @@
 #botao-nova-fonte {
     margin-bottom: 5px;
-    padding: 5px;
-    border: 2px rgb(210, 248, 255) ridge;
-    border-radius: 10px;
 }
 
 form {
@@ -21,4 +18,24 @@ form.ativo {
 
 label {
     display: block;
+}
+
+button {
+    padding: 5px;
+    border: 2px rgb(210, 248, 255) ridge;
+    border-bottom-width: 4px;
+    border-radius: 10px;
+    transform: translateY(0);
+    font-family: monospace;
+    background-color: aliceblue;
+    transition-duration: 0.2s;
+}
+button:active {
+    border-bottom-width: 2px;
+    transform: translateY(2px);
+}
+
+table {
+    border: 2px rgb(210, 248, 255) groove;
+    border-radius: 10px;
 }

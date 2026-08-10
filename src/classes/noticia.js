@@ -1,8 +1,8 @@
 export default class Noticia {
-    constructor(nome, endereco, descricao, dataDePublicacao, categoria) {
-        this.nome = nome
-        this.endereco = endereco
+    constructor(titulo, link, descricao, dataDePublicacao, categoria) {
+        this.titulo = titulo
         this.descricao = descricao
+        this.link = link
         this.dataDePublicacao = dataDePublicacao
         this.categoria = categoria
     }

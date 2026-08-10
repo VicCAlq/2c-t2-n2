@@ -1,4 +1,5 @@
-import Formulario from "./components/Formulario";
+import Formulario from "./components/Formulario.jsx";
+import Tabela from "./components/Tabela.jsx"
 import "./App.css"
 
 const styles = {
@@ -18,7 +19,8 @@ export default function App() {
 	return (
 		<div style={styles.container}>
 			<h1>UtraMostradorDeNotícias10000!!!</h1>
-			<Formulario>Componente de exemplo aqui</Formulario>
+			<Formulario />
+			<Tabela />
 		</div>
 	);
 }
