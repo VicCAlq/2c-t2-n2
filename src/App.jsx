@@ -1,4 +1,6 @@
-import Exemplo from "./components/Exemplo";
+import Exemplo from "./components/UI/UIModal";
+import UINavBar from "./components/UI/UINavBar";  
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const styles = {
   container: {
@@ -15,7 +17,7 @@ const styles = {
 export default function App() {
   return (
     <div style={styles.container}>
-      <h1>Crie seu aplicativo React aqui</h1>
+      <UINavBar> </UINavBar>
       <Exemplo>Componente de exemplo aqui</Exemplo>
     </div>
   );
