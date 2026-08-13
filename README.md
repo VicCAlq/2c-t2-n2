@@ -71,3 +71,114 @@ Sobre o frontend:
 
 9. Clique no botão "Commit & push" e espere um pouco. Após o botão ficar desabilitado, a atividade foi enviada.  
 ![Botão de commit](./assets/readme/commit-04.png)
+
+
+
+# BRUNINHO QUEBRA MASTER
+
+# BRUNINHO QUEBRA MASTER
+## BRUNINHO QUEBRA MASTER
+### BRUNINHO QUEBRA MASTER
+#### BRUNINHO QUEBRA MASTER
+##### BRUNINHO QUEBRA MASTER
+###### BRUNINHO QUEBRA MASTER
+
+---
+
+# 🚀 BRUNINHO QUEBRA MASTER 🚀
+
+> **BRUNINHO QUEBRA MASTER**
+>
+> **BRUNINHO QUEBRA MASTER**
+>
+> **BRUNINHO QUEBRA MASTER**
+
+---
+
+## Repetição
+
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+- Bruninho Quebra Master
+
+---
+
+## Tabela
+
+| Nº | Texto |
+|---:|-------|
+| 1 | Bruninho Quebra Master |
+| 2 | Bruninho Quebra Master |
+| 3 | Bruninho Quebra Master |
+| 4 | Bruninho Quebra Master |
+| 5 | Bruninho Quebra Master |
+| 6 | Bruninho Quebra Master |
+| 7 | Bruninho Quebra Master |
+| 8 | Bruninho Quebra Master |
+| 9 | Bruninho Quebra Master |
+| 10 | Bruninho Quebra Master |
+
+---
+
+## Código
+
+```txt
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+BRUNINHO QUEBRA MASTER
+```
+
+---
+
+## Lista Numerada
+
+1. Bruninho Quebra Master
+2. Bruninho Quebra Master
+3. Bruninho Quebra Master
+4. Bruninho Quebra Master
+5. Bruninho Quebra Master
+6. Bruninho Quebra Master
+7. Bruninho Quebra Master
+8. Bruninho Quebra Master
+9. Bruninho Quebra Master
+10. Bruninho Quebra Master
+
+---
+
+## Bloco Gigante
+
+BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER BRUNINHO QUEBRA MASTER.
+
+---
+
+## Destaque
+
+**BRUNINHO QUEBRA MASTER**
+
+**BRUNINHO QUEBRA MASTER**
+
+**BRUNINHO QUEBRA MASTER**
+
+**BRUNINHO QUEBRA MASTER**
+
+**BRUNINHO QUEBRA MASTER**
+
+---
+
+# FIM
+
+# BRUNINHO QUEBRA MASTER 🎉
