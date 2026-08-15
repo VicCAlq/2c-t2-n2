@@ -31,7 +31,7 @@ function lerRSS(textoXML) {
 
   const parseErro = doc.querySelector('parsererror');
   if (parseErro) {
-    throw new Erro('XML inválido: não foi possível parsear o feed.');
+    throw new Error('XML inválido: não foi possível parsear o feed.');
   }
 
   const formatoAtom = doc.documentElement.nodeName === 'feed';
