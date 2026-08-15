@@ -11,11 +11,7 @@ export function InputComBotao({ meConfirma }) {
 
             <button
                 onClick={() =>
-                    meConfirma(document.getElementById('meuCampoDeTexto').value)
-                }
-            >
-                Enviar
-            </button>
+                    meConfirma(document.getElementById('meuCampoDeTexto').value)}>Enviar</button>
         </div>
     );
 }

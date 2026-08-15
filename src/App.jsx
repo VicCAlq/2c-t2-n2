@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Noticias } from './classes/Noticias';
 import { baixarFeedRSS } from './components/leitorRSS';
+import { InputComBotao } from './classes/Inputar';
 
 const styles = {
   container: {
@@ -76,6 +77,9 @@ export default function App() {
 
   return (
     <div style={styles.container}>
+      <InputComBotao meConfirma={(valor) => {
+        alert('Fake News enviada com sucesso'); 
+      }} />
 
       <h1>Agregador de Notícias - Time 4
       </h1>
