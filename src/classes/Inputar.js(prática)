@@ -1,0 +1,11 @@
+//const meuInput = document.createElement('input');
+//meuInput.type = "text";
+//meuInput.placeholder = "Você pode digitar aqui (=";
+
+//const meConfirma = document.creatElement('button');
+//meConfirma.textContent = "Enviar";
+
+//meConfirma.addEventListener('click', () => {
+//    const valorDigitado = meuInput.value;
+//    alert('texto salvo com sucesso:' + valorDigitado);
+//});
