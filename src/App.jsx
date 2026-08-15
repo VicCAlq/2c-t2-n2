@@ -1,3 +1,7 @@
+import { useState, useEffect } from 'react';
+import { Noticias } from './classes/Noticias';
+import { baixarFeedRSS } from './components/leitorRSS';
+
 const styles = {
   container: {
     padding: "20px",
@@ -22,7 +26,7 @@ export default function App() {
       try {
 
         const resultado = await baixarFeedRSS(
-           https://g1.globo.com/dynamo/rss2.xml
+           "https://g1.globo.com/dynamo/rss2.xml"
         );
 
         const noticiasConvertidas = resultado.noticias.map((noticia) => {
@@ -73,7 +77,9 @@ export default function App() {
   return (
     <div style={styles.container}>
 
-      <h1>Agregador de Notícias</h1>
+      <h1>Agregador de Notícias - Time 4
+      </h1>
+      <p>O site mais confiável da internet!!!</p>
 
       <div>
 
@@ -95,7 +101,7 @@ export default function App() {
 
 
       <h2>
-        Categoria: {categoriaSelecionada}
+        Categoria Escolhida: {categoriaSelecionada}
       </h2>
 
 
@@ -124,7 +130,7 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Ler notícia
+            Acessar Notícia (seu fofoqueiro)
           </a>
 
           <hr />
