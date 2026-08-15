@@ -8,12 +8,13 @@ class FontesNoticias {
 }
 
 class Noticias {
-    constructor(nome, endereco, descricao, dataDePublicacao,  categoria) {
+    constructor(nome, endereco, descricao, dataDePublicacao,  categoria, fonte) {
         this.nome = nome;
         this.endereco = endereco;
         this.descricao = descricao;
         this.dataDePublicacao = dataDePublicacao;
         this.categoria = categoria;
+        this.fonte = fonte;
     }
 }
 
