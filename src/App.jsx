@@ -1,22 +1,24 @@
-import Exemplo from "./components/Exemplo";
+import Exemplo from "./components/UI/UIModal";
+import UINavBar from "./components/UI/UINavBar";
+import UITable from "./components/UI/UITable";
+import UIInput from "./components/UI/UIInput";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const styles = {
   container: {
-    flex: 1,
     backgroundColor: "#eec",
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    color: "#101015"
   }
 };
 
 export default function App() {
   return (
     <div style={styles.container}>
-      <h1>Crie seu aplicativo React aqui</h1>
-      <Exemplo>Componente de exemplo aqui</Exemplo>
+      <UINavBar> </UINavBar>
+      <UIInput> </UIInput>
+      <UITable> </UITable>
     </div>
   );
 }
