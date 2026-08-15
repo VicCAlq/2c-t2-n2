@@ -6,9 +6,11 @@ function UITable() {
       <thead>
         <tr>
           <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th>Titulo</th>
+          <th>Endereço</th>
+          <th>Descrição</th>
+          <th>Data de Publicação</th>
+          <th>Categoria</th>
         </tr>
       </thead>
       <tbody>
@@ -17,17 +19,16 @@ function UITable() {
           <td>Mark</td>
           <td>Otto</td>
           <td>@mdo</td>
+          <td>2023-01-01</td>
+          <td>categoria1</td>
         </tr>
         <tr>
           <td>2</td>
           <td>Jacob</td>
           <td>Thornton</td>
           <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan={2}>Larry the Bird</td>
-          <td>@twitter</td>
+          <td>2023-01-02</td>
+          <td>categoria2</td>
         </tr>
       </tbody>
     </Table>
