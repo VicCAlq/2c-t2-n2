@@ -1,7 +1,7 @@
 {
-  "name": "2x-front-01-elementos",
+  "name": "g8-divonico",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,11 @@
     "test-json": "timeout --signal=SIGKILL 60s npx vitest run --reporter=json --output-file=./resultado.json --pool=forks --testTimeout=60000 || true"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "idb": "^8.0.3",
     "react": "^19.2.6",
+    "react-bootstrap": "^2.10.10",
+    "react-bootstrap-icons": "^1.11.6",
     "react-dom": "^19.2.6"
   },
   "devDependencies": {
