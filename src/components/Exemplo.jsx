@@ -11,15 +11,21 @@ export default function Exemplo({ children }) {
   const [endereco, setEndereco] = useState("")
 
   async function exibirFeed(endereco) {
-    setFeed("")
-    setFonte("")
-    setCarregando(<h2>Carregando feed</h2>)
-    await baixarFeedRSS(endereco)
-    .then(res => {
+    if (!endereco.trim()) {
+      setFeed("Digite um endereço de RSS.");
+      return;
+    }
 
-    const listaDeNoticias = res.noticias
+    setFeed("");
+    setFonte("");
+    setCarregando(<h2>Carregando feed</h2>);  
 
-      for(let noticia of listaDeNoticias){
+    try {
+      const res = await baixarFeedRSS(endereco);
+
+      const listaDeNoticias = res.noticias;
+
+      for (const noticia of listaDeNoticias) {
         const novaNoticia = new Noticia(
           noticia.titulo,
           res.fonte.titulo,
@@ -27,50 +33,76 @@ export default function Exemplo({ children }) {
           noticia.descricao,
           noticia.dataPublicacao,
           noticia.categorias
-        )
+        );
 
-        adicionarNoticia(novaNoticia)
+        await adicionarNoticia(novaNoticia);
       }
-      
-      
 
-      console.log(res)
-      setFeed(<div style={{ margin: "20px auto", borderRadius: "10px", backgroundColor: "teal"}}>
-        {res.noticias.map(noticia => {
-          <div
-            style={{backgroundColor: "#aaa", width: "80vw", padding: "5px"}}
-          >
-            <p>{res.fonte.titulo}</p>
-            <h3>{noticia.titulo}</h3>
-          </div>
-        })}
-      </div>)
-      // setFonte(<div>
-      //   <p>Título: {res.fonte.titulo}</p>
-      //   <p>Link: {res.fonte.link}</p>
-      //   <p>Descrição: {res.fonte.descricao}</p>
-      // </div>)
-    })
-    setCarregando("")
+      setFeed(
+        <div style={{ margin: "20px auto" }}>
+          {res.noticias.map((noticia) => (
+            <div
+              key={noticia.link}
+              style={{
+                backgroundColor: "#aaa",
+                width: "80vw",
+                padding: "10px",
+                margin: "10px auto",
+                borderRadius: "8px",
+              }}
+            >
+              <p>{res.fonte.titulo}</p>
+              <h3>{noticia.titulo}</h3>
+            </div>
+          ))}
+        </div>
+      );
+    } catch (erro) {
+      setFeed(
+        <div className="mensagem-erro-container">
+          <p className="mensagem-erro">
+            Não foi possível importar esse endereço.
+            <br />
+            Motivo: {erro.message}
+          </p>
+        </div>
+      );
+    } finally {
+      setCarregando("");
+    }
   }
 
-  return(<>
-    <h2>{children}</h2>
-    <input
-      type="text"
-      onChange={(e) => setEndereco(e.target.value)}
-    />
-    <button
-      onClick={() => {
-        setFeed("")
-        setFonte("")
-        setCarregando(<h2>Carregando feed</h2>)
-        exibirFeed(endereco)
-      }}
-    >Importar feed</button>
-    {carregando}
-    {feed}
-  </>)
+  return (
+    <>
+      <h2>{children}</h2>
+
+      <div className="formulario-feed">
+        <input
+          className="campo-endereco"
+          type="text"
+          placeholder="Cole o endereço do feed RSS"
+          onChange={(e) => setEndereco(e.target.value)}
+        />
+
+        <button
+          className="botao-importar"
+          onClick={() => {
+            setFeed("");
+            setFonte("");
+            setCarregando(<h2>Carregando feed</h2>);
+            exibirFeed(endereco);
+          }}
+        >
+          Importar feed
+        </button>
+      </div>
+
+      {carregando}
+      <div className="feed">
+        {feed}
+      </div>
+    </>
+  );
 }
 
 
