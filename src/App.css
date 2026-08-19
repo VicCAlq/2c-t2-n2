@@ -24,10 +24,9 @@ body {
   margin: 10px 0;
   padding: 10px;
   border-radius: 8px;
-  background-color: #aaa;
-  overflow: hidden;
+  background: linear-gradient(135deg, #12355b, #087f8c);
   overflow-wrap: anywhere;
-  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .titulo {
