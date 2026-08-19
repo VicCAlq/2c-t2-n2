@@ -1,7 +1,7 @@
 const CORS_PROXIES = [
   'https://api.allorigins.win/raw?url=',
   'https://corsproxy.io/?',
-  'thingproxy.freeboard.io/fetch/',
+  'https://thingproxy.freeboard.io/fetch/',
 ];
 
 async function fetchComProxy(endereco) {
