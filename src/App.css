@@ -17,6 +17,18 @@ body {
   animation: aparecer 2s ease-out;
 }
 
+.noticia-importada {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #aaa;
+  overflow-wrap: anywhere;
+  overflow: hidden;
+}
+
 .titulo {
   max-width: 1100px;
   margin: 0 auto 30px;

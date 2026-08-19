@@ -43,13 +43,7 @@ export default function Exemplo({ children }) {
           {res.noticias.map((noticia) => (
             <div
               key={noticia.link}
-              style={{
-                backgroundColor: "#aaa",
-                width: "80vw",
-                padding: "10px",
-                margin: "10px auto",
-                borderRadius: "8px",
-              }}
+              className="noticia-importada"
             >
               <p>{res.fonte.titulo}</p>
               <h3>{noticia.titulo}</h3>
