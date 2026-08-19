@@ -1,1 +1,259 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", Arial, sans-serif;
+  background: #eef2f7;
+  color: #1f2937;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 30px 20px;
+  animation: aparecer 2s ease-out;
+}
+
+.titulo {
+  max-width: 1100px;
+  margin: 0 auto 30px;
+  padding: 28px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #12355b, #087f8c);
+  color: white;
+  text-align: center;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
+}
+
+.formulario-feed {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  align-items: center;
+}
+
+.campo-endereco {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1f2937;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.campo-endereco:focus {
+  border-color: #0759a5;
+  box-shadow: 0 0 0 3px rgb(7 89 165 / 15%);
+}
+
+.botao-importar {
+  flex: 0 0 auto;
+  height: 46px;
+  margin-top: 0;
+  padding: 0 18px;
+  white-space: nowrap;
+}
+
+.importador {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 22px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 10%);
+}
+
+.importador h2 {
+  margin-top: 0;
+}
+
+.campo-endereco {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.botao-importar {
+  margin-top: 0px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #087f8c;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.botao-importar:hover {
+  background: #05636d;
+  box-shadow: #087f8c 1px 1px 30px;
+}
+
+.lista-noticias {
+  width: min(900px, 100%);
+  margin: 24px auto;
+}
+
+.noticia {
+  margin-bottom: 16px;
+  padding: 18px;
+  border-left: 5px solid #087f8c;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 10%);
+}
+
+.noticia-fonte {
+  margin: 0 0 8px;
+  color: #087f8c;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.noticia-titulo {
+  margin: 0 0 10px;
+  color: #12355b;
+}
+
+.noticia-descricao {
+  line-height: 1.5;
+}
+
+.noticia-link {
+  color: #087f8c;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.noticia-link:hover {
+  text-decoration: underline;
+}
+
+.mensagem-erro {
+  color: #edecec;
+  font-weight: bold;
+}
+
+.mensagem-erro-container {
+    width: 600px;
+    margin-left: 20%;
+  background-color: #ff0000;
+  box-shadow: 0 1px 20px 2px rgb(255 0 0 / 45%);
+  border-radius: 10px;
+  margin-top: 2%;
+  padding: 7px;
+}
+
+.feed {
+    margin-top: 2%;
+    margin-left: -45px;
+}
+
+.tabela-container {
+  width: min(1100px, 100%);
+  margin: 30px auto;
+  overflow-x: auto;
+  border-radius: 25px;
+  animation: aparecer 2s ease-out;
+  animation: aparecerEBalancear 7s alternate infinite;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.tabela th,
+.tabela td {
+  padding: 12px;
+  border: 1px solid #dbe3ec;
+  text-align: left;
+}
+
+.tabela th {
+  background: #12355b;
+  color: white;
+}
+
+.tabela tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 15px 10px;
+  }
+
+  .titulo {
+    padding: 20px 12px;
+    font-size: 24px;
+  }
+
+  .noticia {
+    padding: 14px;
+  }
+
+  .formulario-feed {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .campo-endereco,
+  .botao-importar {
+    width: 100%;
+  }
+
+  .mensagem-erro-container {
+    width: 100%;
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aparecerEBalancear {
+  0% {
+    transform: translateX(0);
+  }
+
+  43% {
+    transform: translateX(0);
+  }
+
+  58% {
+    transform: translateX(-10px);
+  }
+
+  72% {
+    transform: translateX(10px);
+  }
+
+  86% {
+    transform: translateX(-6px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
