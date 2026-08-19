@@ -167,11 +167,6 @@ body {
   padding: 7px;
 }
 
-.feed {
-    margin-top: 2%;
-    margin-left: -45px;
-}
-
 .tabela-container {
   width: min(1100px, 100%);
   margin: 30px auto;
