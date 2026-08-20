@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState, useEffect, useMemo } from 'react';
 import Header from './components/Header';
 import FormFonteNoticia from './components/FormFonteNoticia';
@@ -9,33 +8,19 @@ import GerenciadorFontes from './components/GerenciadorFontes';
 
 import { FonteNoticia } from './models/FonteNoticia';
 import { Noticia } from './models/Noticia';
-import { fontesIniciais, noticiasIniciais } from './data/dadosIniciais';
 import { baixarFeedRSS } from './components/leitorRSS';
-import { Toaster, toast } from 'sonner';
-import { carregarFontesIDB, salvarFontesIDB, carregarNoticiasIDB, salvarNoticiasIDB } from './utils/db';
+import { 
+  carregarFontesIDB, 
+  salvarFontesIDB, 
+  carregarNoticiasIDB, 
+  salvarNoticiasIDB,
+  removerFonte as removerFonteIDB,
+  limparTudoDB
+} from './utils/db';
 
 export default function App() {
-  const [fontes, setFontes] = useState(() => {
-    try {
-      const salvas = localStorage.getItem('n2_fontes');
-      if (salvas) {
-        const parsed = JSON.parse(salvas);
-        return parsed.map(f => new FonteNoticia(f.nome, f.endereco, f.descricao, f.categoria));
-      }
-    } catch (_) { /* localStorage indisponível */ }
-    return fontesIniciais;
-  });
-
-  const [noticias, setNoticias] = useState(() => {
-    try {
-      const salvas = localStorage.getItem('n2_noticias');
-      if (salvas) {
-        const parsed = JSON.parse(salvas);
-        return parsed.map(n => new Noticia(n.nome, n.endereco, n.descricao, n.dataDePublicacao, n.categoria, n.fonte));
-      }
-    } catch (_) { /* localStorage indisponível */ }
-    return noticiasIniciais;
-  });
+  const [fontes, setFontes] = useState([]);
+  const [noticias, setNoticias] = useState([]);
 
   const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
   const [fonteSelecionada, setFonteSelecionada] = useState('');
@@ -43,34 +28,55 @@ export default function App() {
   
   const [noticiaModal, setNoticiaModal] = useState(null);
   const [carregando, setCarregando] = useState(false);
+  const [dbCarregado, setDbCarregado] = useState(false);
 
   useEffect(() => {
-    async function carregarDadosIDB() {
-      const fontesIDB = await carregarFontesIDB();
-      if (fontesIDB && fontesIDB.length > 0) {
-        setFontes(fontesIDB.map(f => new FonteNoticia(f.nome, f.endereco, f.descricao, f.categoria)));
+    async function inicializarLimpo() {
+      if (!localStorage.getItem('n2_limpo_v2')) {
+        await limparTudoDB();
+        localStorage.setItem('n2_limpo_v2', 'true');
+        setFontes([]);
+        setNoticias([]);
+        setDbCarregado(true);
+        return;
       }
-      const noticiasIDB = await carregarNoticiasIDB();
-      if (noticiasIDB && noticiasIDB.length > 0) {
-        setNoticias(noticiasIDB.map(n => new Noticia(n.nome, n.endereco, n.descricao, n.dataDePublicacao, n.categoria, n.fonte)));
+
+      try {
+        const fontesIDB = await carregarFontesIDB();
+        const noticiasIDB = await carregarNoticiasIDB();
+
+        if (fontesIDB && fontesIDB.length > 0) {
+          setFontes(fontesIDB.map(f => new FonteNoticia(f.nome, f.endereco, f.descricao, f.categoria, f.id)));
+        } else {
+          setFontes([]);
+        }
+
+        if (noticiasIDB && noticiasIDB.length > 0) {
+          setNoticias(noticiasIDB.map(n => new Noticia(n.nome, n.endereco, n.descricao, n.dataDePublicacao || n.dataPublicacao, n.categoria, n.fonte, n.id)));
+        } else {
+          setNoticias([]);
+        }
+      } catch (_) {
+        setFontes([]);
+        setNoticias([]);
+      } finally {
+        setDbCarregado(true);
       }
     }
-    carregarDadosIDB();
+    inicializarLimpo();
   }, []);
 
   useEffect(() => {
-    salvarFontesIDB(fontes);
-    try {
-      localStorage.setItem('n2_fontes', JSON.stringify(fontes));
-    } catch (_) { /* ignora */ }
-  }, [fontes]);
+    if (dbCarregado) {
+      salvarFontesIDB(fontes);
+    }
+  }, [fontes, dbCarregado]);
 
   useEffect(() => {
-    salvarNoticiasIDB(noticias);
-    try {
-      localStorage.setItem('n2_noticias', JSON.stringify(noticias));
-    } catch (_) { /* ignora */ }
-  }, [noticias]);
+    if (dbCarregado) {
+      salvarNoticiasIDB(noticias);
+    }
+  }, [noticias, dbCarregado]);
 
   const categoriasUnicas = useMemo(() => {
     const conjunto = new Set();
@@ -89,39 +95,40 @@ export default function App() {
         if (nome) novaFonte.nome = nome;
         if (categoria) novaFonte.categoria = categoria;
         if (descricao) novaFonte.descricao = descricao;
+        novaFonte.endereco = endereco.trim();
 
-        setFontes(prev => [novaFonte, ...prev.filter(f => f.id !== novaFonte.id)]);
-
-        setNoticias(prev => {
-          const idsExistentes = new Set(prev.map(n => n.id));
-          const apenasNovas = resultadoRSS.noticias.filter(n => !idsExistentes.has(n.id));
-          return [...apenasNovas, ...prev];
+        const nomeFinal = novaFonte.nome;
+        const noticiasProcessadas = (resultadoRSS.noticias || []).map(item => {
+          if (nomeFinal) item.fonte = nomeFinal;
+          if (categoria && (!item.categoria || item.categoria === 'Geral')) {
+            item.categoria = categoria;
+          }
+          return item;
         });
-      }
-    // eslint-disable-next-line no-unused-vars
-    } catch (_) {
-      const nomeFonte = nome || `Fonte ${fontes.length + 1}`;
-      const novaFonte = new FonteNoticia(nomeFonte, endereco, descricao || 'Fonte adicionada manualmente.', categoria || 'Geral');
-      
-      const noticiaManual = new Noticia(
-        `Destaque de ${novaFonte.nome}`,
-        endereco,
-        `Esta notícia foi vinculada à fonte de notícias (${novaFonte.nome}).`,
-        new Date().toISOString(),
-        novaFonte.categoria,
-        novaFonte.nome
-      );
 
-      setFontes(prev => [novaFonte, ...prev]);
-      setNoticias(prev => [noticiaManual, ...prev]);
+        setFontes(prev => [novaFonte, ...prev.filter(f => f.endereco !== novaFonte.endereco)]);
+
+        if (noticiasProcessadas.length > 0) {
+          setNoticias(prev => {
+            const linksExistentes = new Set(prev.map(n => n.endereco));
+            const apenasNovas = noticiasProcessadas.filter(n => !linksExistentes.has(n.endereco));
+            return [...apenasNovas, ...prev];
+          });
+        }
+      }
+    } catch (err) {
+      throw new Error(err.message || 'Não foi possível ler o feed RSS informado.');
     } finally {
       setCarregando(false);
     }
   };
 
   const handleAtualizarFeeds = async () => {
+    if (fontes.length === 0) {
+      return;
+    }
+
     setCarregando(true);
-    toast.info('Sincronizando feeds RSS...');
     let novasNoticiasAcumuladas = [];
 
     for (const fonte of fontes) {
@@ -131,39 +138,50 @@ export default function App() {
           if (res && res.noticias) {
             novasNoticiasAcumuladas.push(...res.noticias);
           }
-        } catch (_) { /* ignora falha  */ }
+        } catch (_) {}
       }
     }
 
     if (novasNoticiasAcumuladas.length > 0) {
       setNoticias(prev => {
-        const idsExistentes = new Set(prev.map(item => item.id));
-        const noticiasVerdadeiramenteNovas = novasNoticiasAcumuladas.filter(n => !idsExistentes.has(n.id));
+        const linksExistentes = new Set(prev.map(item => item.endereco));
+        const noticiasVerdadeiramenteNovas = novasNoticiasAcumuladas.filter(n => !linksExistentes.has(n.endereco));
 
         if (noticiasVerdadeiramenteNovas.length > 0) {
-          toast.success(`${noticiasVerdadeiramenteNovas.length} nova(s) notícia(s) adicionada(s)!`);
           return [...noticiasVerdadeiramenteNovas, ...prev];
-        } else {
-          toast.success('Sincronização concluída. Todas as notícias já estavam atualizadas.');
-          return prev;
         }
+        return prev;
       });
-    } else {
-      toast.success('Todas as notícias já estão atualizadas.');
     }
     setCarregando(false);
   };
 
-  const handleRemoverFonte = (idOuNome) => {
-    setFontes(prev => prev.filter(f => f.id !== idOuNome && f.nome !== idOuNome));
-    toast.info('Fonte removida.');
+  const handleRemoverFonte = async (idOuNome) => {
+    const novasFontes = fontes.filter(f => f.id !== idOuNome && f.nome !== idOuNome);
+    setFontes(novasFontes);
+    if (novasFontes.length === 0) {
+      setNoticias([]);
+      await limparTudoDB();
+    } else if (typeof idOuNome === 'number') {
+      try {
+        await removerFonteIDB(idOuNome);
+      } catch (_) {}
+    }
+  };
+
+  const handleLimparTudo = async () => {
+    await limparTudoDB();
+    setFontes([]);
+    setNoticias([]);
+    setCategoriaSelecionada('');
+    setFonteSelecionada('');
+    setTermoBusca('');
   };
 
   const handleLimparFiltros = () => {
     setCategoriaSelecionada('');
     setFonteSelecionada('');
     setTermoBusca('');
-    toast.info('Filtros limpos.');
   };
 
   const noticiasFiltradas = useMemo(() => {
@@ -186,18 +204,20 @@ export default function App() {
     });
   }, [noticias, categoriaSelecionada, fonteSelecionada, termoBusca]);
 
+  const noticiaDestaque = noticiasFiltradas[0] || noticias[0];
+
   return (
-    <div style={{ width: '100%', minHeight: '100vh', padding: '24px 16px 60px' }}>
-      <Toaster position="bottom-right" richColors />
+    <div style={{ width: '100%', minHeight: '100vh', background: 'var(--g1-gray-bg)' }}>
+      <Header 
+        totalNoticias={noticias.length}
+        totalFontes={fontes.length}
+        aoAtualizarFeeds={handleAtualizarFeeds}
+        aoLimparTudo={handleLimparTudo}
+        carregando={carregando}
+        noticiaDestaque={noticiaDestaque}
+      />
 
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <Header 
-          totalNoticias={noticias.length}
-          totalFontes={fontes.length}
-          aoAtualizarFeeds={handleAtualizarFeeds}
-          carregando={carregando}
-        />
-
+      <main className="portal-container">
         <FormFonteNoticia 
           aoAdicionarFonte={handleAdicionarFonte}
           carregando={carregando}
@@ -224,13 +244,14 @@ export default function App() {
         <GerenciadorFontes 
           fontes={fontes}
           aoRemoverFonte={handleRemoverFonte}
+          aoLimparTudo={handleLimparTudo}
         />
 
         <ModalNoticia 
           noticia={noticiaModal}
           aoFechar={() => setNoticiaModal(null)}
         />
-      </div>
+      </main>
     </div>
   );
 }
