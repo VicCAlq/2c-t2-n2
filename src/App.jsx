@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Noticias } from './classes/Noticias';
 import { baixarFeedRSS } from './components/leitorRSS';
 import { InputComBotao } from './classes/Inputar';
+import TabelaNoticias from './classes/TabelaNoticias';
 
 const styles = {
   container: {
