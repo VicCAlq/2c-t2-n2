@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { Filter, Rss, Search, X } from 'lucide-react';
+import { Filter, Rss, Search, X } from './Icons';
 
 export default function FiltrosTabela({
   categorias,
@@ -15,11 +14,8 @@ export default function FiltrosTabela({
   const possuiFiltroAtivo = categoriaSelecionada !== '' || fonteSelecionada !== '' || termoBusca !== '';
 
   return (
-    <motion.div 
+    <div 
       className="g1-panel"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
       style={{ padding: '16px', marginBottom: '20px' }}
     >
       <div style={{ marginBottom: '14px' }}>
@@ -106,6 +102,6 @@ export default function FiltrosTabela({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

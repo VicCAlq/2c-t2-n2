@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Link as LinkIcon, Loader2, Sparkles } from 'lucide-react';
+import { Plus, Link as LinkIcon, Loader2, Sparkles } from './Icons';
 
 export default function FormFonteNoticia({ aoAdicionarFonte, carregando }) {
   const [endereco, setEndereco] = useState('');
@@ -35,11 +34,8 @@ export default function FormFonteNoticia({ aoAdicionarFonte, carregando }) {
   };
 
   return (
-    <motion.div 
+    <div 
       className="g1-panel"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
       style={{ padding: '20px', marginBottom: '20px', borderLeft: '4px solid var(--g1-red)' }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
@@ -134,6 +130,6 @@ export default function FormFonteNoticia({ aoAdicionarFonte, carregando }) {
           </div>
         </div>
       </form>
-    </motion.div>
+    </div>
   );
 }

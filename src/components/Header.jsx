@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { RefreshCw, Newspaper, Rss, Clock, Trash2 } from 'lucide-react';
+import { RefreshCw, Newspaper, Rss, Clock, Trash2 } from './Icons';
 import { formatarTempoRelativo } from '../utils/formatadorData';
 
 export default function Header({ totalNoticias, totalFontes, aoAtualizarFeeds, aoLimparTudo, carregando, noticiaDestaque }) {
@@ -24,14 +23,12 @@ export default function Header({ totalNoticias, totalFontes, aoAtualizarFeeds, a
       <div className="g1-header">
         <div className="g1-header-container">
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <motion.a 
+            <a 
               href="#" 
               className="g1-logo-badge"
-              initial={{ scale: 0.98 }}
-              animate={{ scale: 1 }}
             >
               g1 <span>notícias</span>
-            </motion.a>
+            </a>
 
             <div style={{ borderLeft: '2px solid var(--border-strong)', paddingLeft: '16px' }}>
               <h1 style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--g1-dark)', margin: 0, lineHeight: 1.1 }}>
