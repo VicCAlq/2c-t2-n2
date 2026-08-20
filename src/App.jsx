@@ -95,32 +95,29 @@ export default function App() {
         if (nome) novaFonte.nome = nome;
         if (categoria) novaFonte.categoria = categoria;
         if (descricao) novaFonte.descricao = descricao;
+        novaFonte.endereco = endereco.trim();
+
+        const nomeFinal = novaFonte.nome;
+        const noticiasProcessadas = (resultadoRSS.noticias || []).map(item => {
+          if (nomeFinal) item.fonte = nomeFinal;
+          if (categoria && (!item.categoria || item.categoria === 'Geral')) {
+            item.categoria = categoria;
+          }
+          return item;
+        });
 
         setFontes(prev => [novaFonte, ...prev.filter(f => f.endereco !== novaFonte.endereco)]);
 
-        if (resultadoRSS.noticias && resultadoRSS.noticias.length > 0) {
+        if (noticiasProcessadas.length > 0) {
           setNoticias(prev => {
             const linksExistentes = new Set(prev.map(n => n.endereco));
-            const apenasNovas = resultadoRSS.noticias.filter(n => !linksExistentes.has(n.endereco));
+            const apenasNovas = noticiasProcessadas.filter(n => !linksExistentes.has(n.endereco));
             return [...apenasNovas, ...prev];
           });
         }
       }
-    } catch (_) {
-      const nomeFonte = nome || `Fonte ${fontes.length + 1}`;
-      const novaFonte = new FonteNoticia(nomeFonte, endereco, descricao || 'Fonte de notícias adicionada.', categoria || 'Geral');
-      
-      const noticiaManual = new Noticia(
-        `Destaque de ${novaFonte.nome}`,
-        endereco,
-        `Esta matéria foi vinculada à fonte (${novaFonte.nome}).`,
-        new Date().toISOString(),
-        novaFonte.categoria,
-        novaFonte.nome
-      );
-
-      setFontes(prev => [novaFonte, ...prev]);
-      setNoticias(prev => [noticiaManual, ...prev]);
+    } catch (err) {
+      throw new Error(err.message || 'Não foi possível ler o feed RSS informado.');
     } finally {
       setCarregando(false);
     }

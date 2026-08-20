@@ -7,7 +7,20 @@ export class Noticia {
     this.endereco = endereco || '';
     this.descricao = descricao || '';
     
-    const dataIso = dataDePublicacao ? new Date(dataDePublicacao).toISOString() : new Date().toISOString();
+    let dataIso = new Date().toISOString();
+    if (dataDePublicacao) {
+      try {
+        const parsed = new Date(dataDePublicacao);
+        if (!isNaN(parsed.getTime())) {
+          dataIso = parsed.toISOString();
+        } else {
+          dataIso = String(dataDePublicacao);
+        }
+      } catch (_) {
+        dataIso = String(dataDePublicacao);
+      }
+    }
+
     this.dataDePublicacao = dataIso;
     this.dataPublicacao = dataIso;
     
