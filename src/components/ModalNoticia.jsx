@@ -1,4 +1,4 @@
-import { X, ExternalLink, Calendar, Rss, Share2 } from './Icons';
+import { X, ExternalLink, Calendar, Rss, Share2, Copy } from 'lucide-react';
 import { formatarDataCompleta, formatarTempoRelativo } from '../utils/formatadorData';
 
 export default function ModalNoticia({ noticia, aoFechar }) {
@@ -7,108 +7,72 @@ export default function ModalNoticia({ noticia, aoFechar }) {
   const copiarLinkModal = () => {
     if (noticia.endereco) {
       navigator.clipboard.writeText(noticia.endereco);
+      alert('Link copiado!');
     }
   };
 
   return (
-    <div className="modal-overlay" onClick={aoFechar}>
+    <div className="fixed inset-0 z-[9995] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200" onClick={aoFechar}>
       <div 
-        className="modal-content"
+        className="relative w-full max-w-2xl bg-slate-900 rounded-2xl border-2 border-red-600 p-6 md:p-8 text-white shadow-2xl overflow-y-auto max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button 
           type="button"
           onClick={aoFechar}
-          style={{
-            position: 'absolute',
-            top: '16px',
-            right: '16px',
-            background: '#f1f5f9',
-            border: '1px solid var(--border-light)',
-            color: 'var(--text-dark)',
-            borderRadius: '0px',
-            width: '32px',
-            height: '32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer'
-          }}
+          className="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800 transition"
         >
-          <X size={16} />
+          <X className="w-5 h-5" />
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span className="badge-category cat-geral">
-            {noticia.categoria || 'Geral'}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="bg-red-600 text-white text-xs font-black px-2.5 py-0.5 uppercase tracking-wider rounded">
+            {noticia.categoria || 'CNN BRASIL'}
           </span>
-          <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--g1-red)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-            <Rss size={13} /> {noticia.fonte || 'G1'}
+          <span className="text-xs font-extrabold text-slate-300 flex items-center gap-1">
+            <Rss className="w-3.5 h-3.5 text-red-500" /> {noticia.fonte || 'CNN Brasil'}
           </span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-heading)',
-          color: 'var(--g1-dark)',
-          fontSize: '1.5rem',
-          fontWeight: 900,
-          lineHeight: 1.25,
-          marginBottom: '12px'
-        }}>
+        <h2 className="text-xl md:text-2xl font-black text-white leading-tight mb-4">
           {noticia.nome}
         </h2>
 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontSize: '0.8rem',
-          color: 'var(--text-muted)',
-          marginBottom: '16px',
-          paddingBottom: '12px',
-          borderBottom: '1px solid var(--border-light)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Calendar size={14} color="#64748b" />
+        <div className="flex items-center justify-between text-xs text-slate-400 border-y border-slate-800 py-3 mb-4">
+          <div className="flex items-center gap-1.5">
+            <Calendar className="w-4 h-4 text-red-500" />
             <span>Publicado {formatarTempoRelativo(noticia.dataDePublicacao)} ({formatarDataCompleta(noticia.dataDePublicacao)})</span>
           </div>
 
           <button
             type="button"
             onClick={copiarLinkModal}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--g1-red)',
-              fontSize: '0.78rem',
-              fontWeight: '800',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px'
-            }}
+            className="text-red-400 hover:text-red-300 font-bold flex items-center gap-1"
           >
-            <Share2 size={13} /> Compartilhar
+            <Share2 className="w-3.5 h-3.5" /> Compartilhar
           </button>
         </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <p style={{ color: 'var(--text-main)', fontSize: '1rem', lineHeight: '1.6', whiteSpace: 'pre-line' }}>
-            {noticia.descricao || 'Nenhum resumo disponível para este artigo.'}
+        <div className="mb-6 leading-relaxed text-slate-200 text-sm md:text-base space-y-4">
+          <p className="whitespace-pre-line">
+            {noticia.descricao || 'Nenhum resumo adicional disponível para esta notícia.'}
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', borderTop: '1px solid var(--border-light)', paddingTop: '14px' }}>
-          <button className="btn-g1-secondary" onClick={aoFechar}>
+        <div className="flex items-center justify-end gap-3 border-t border-slate-800 pt-4">
+          <button
+            onClick={aoFechar}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs uppercase tracking-wider rounded-xl transition"
+          >
             Fechar
           </button>
           <a 
             href={noticia.endereco} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="btn-g1-primary"
+            className="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-lg transition flex items-center gap-1.5"
           >
-            Ler Notícia Completa <ExternalLink size={14} />
+            Abrir Notícia no Portal CNN <ExternalLink className="w-4 h-4" />
           </a>
         </div>
       </div>

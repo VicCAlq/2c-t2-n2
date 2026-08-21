@@ -1,36 +1,42 @@
-import { Calendar, Rss, ArrowUpRight, Copy, Flame } from './Icons';
+import { Calendar, Rss, ExternalLink, Copy, Flame } from 'lucide-react';
 import { formatarTempoRelativo } from '../utils/formatadorData';
 
-export default function TabelaNoticias({ noticias, aoSelecionarNoticia, aoLimparFiltros }) {
-  const getCategoriaClass = (categoria) => {
-    if (!categoria) return 'cat-geral';
+export default function TabelaNoticias({ noticias = [], aoSelecionarNoticia, aoLimparFiltros }) {
+  const getCategoriaBadgeClass = (categoria) => {
+    if (!categoria) return 'bg-slate-700 text-white';
     const catLower = categoria.toLowerCase();
-    if (catLower.includes('tec') || catLower.includes('soft') || catLower.includes('ia')) return 'cat-tecnologia';
-    if (catLower.includes('mun') || catLower.includes('pol') || catLower.includes('int')) return 'cat-mundo';
-    if (catLower.includes('inov') || catLower.includes('start') || catLower.includes('cien')) return 'cat-inovacao';
-    if (catLower.includes('esp') || catLower.includes('fut') || catLower.includes('jog')) return 'cat-esportes';
-    if (catLower.includes('econ') || catLower.includes('fin') || catLower.includes('mer')) return 'cat-economia';
-    if (catLower.includes('cult') || catLower.includes('art') || catLower.includes('cin')) return 'cat-cultura';
-    return 'cat-geral';
+    if (catLower.includes('tec') || catLower.includes('soft') || catLower.includes('ia')) return 'bg-indigo-600 text-white';
+    if (catLower.includes('mun') || catLower.includes('pol') || catLower.includes('int')) return 'bg-[#cc0000] text-white';
+    if (catLower.includes('inov') || catLower.includes('start')) return 'bg-purple-600 text-white';
+    if (catLower.includes('esp') || catLower.includes('fut')) return 'bg-emerald-600 text-white';
+    if (catLower.includes('econ') || catLower.includes('fin')) return 'bg-amber-600 text-white';
+    if (catLower.includes('cult') || catLower.includes('art')) return 'bg-rose-600 text-white';
+    return 'bg-slate-800 text-white';
   };
 
   const copiarLink = (e, url) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(url);
+    if (url) {
+      navigator.clipboard.writeText(url);
+      alert('Link da notícia copiado!');
+    }
   };
 
   if (!noticias || noticias.length === 0) {
     return (
-      <div 
-        className="g1-panel"
-        style={{ padding: '40px 20px', textAlign: 'center', background: '#ffffff' }}
-      >
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '14px', fontWeight: '600' }}>
-          Nenhuma notícia encontrada para os filtros aplicados.
+      <div className="bg-white border border-slate-200 rounded-2xl p-10 text-center text-slate-800 shadow-xs">
+        <h3 className="text-lg font-bold text-slate-800 mb-2">
+          Nenhuma notícia encontrada
+        </h3>
+        <p className="text-sm text-slate-500 mb-6">
+          Não há matérias que correspondam aos filtros aplicados.
         </p>
         {aoLimparFiltros && (
-          <button className="btn-g1-secondary" onClick={aoLimparFiltros}>
-            Limpar Filtros de Pesquisa
+          <button
+            onClick={aoLimparFiltros}
+            className="px-5 py-2.5 bg-[#cc0000] hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition shadow-xs"
+          >
+            Limpar Filtros de Busca
           </button>
         )}
       </div>
@@ -41,260 +47,120 @@ export default function TabelaNoticias({ noticias, aoSelecionarNoticia, aoLimpar
   const demaisNoticias = noticias.slice(1);
 
   return (
-    <div>
+    <div className="space-y-6">
       {noticiaHero && (
-        <div 
-          className="hero-news-card"
+        <article
           onClick={() => aoSelecionarNoticia(noticiaHero)}
+          className="bg-white border border-slate-200 hover:border-[#cc0000] rounded-2xl p-6 md:p-8 shadow-sm transition cursor-pointer group border-t-4 border-t-[#cc0000]"
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className={`badge-category ${getCategoriaClass(noticiaHero.categoria)}`}>
-                {noticiaHero.categoria || 'Geral'}
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <div className="flex items-center gap-2">
+              <span className={`text-[11px] font-bold px-2.5 py-0.5 uppercase tracking-wider rounded ${getCategoriaBadgeClass(noticiaHero.categoria)}`}>
+                {noticiaHero.categoria || 'GERAL'}
               </span>
-              <span style={{ fontSize: '0.75rem', fontWeight: 900, color: 'var(--g1-red)', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                <Flame size={14} color="#c8102e" /> DESTAQUE
+              <span className="text-xs font-bold text-[#cc0000] flex items-center gap-1">
+                <Flame className="w-4 h-4 text-[#cc0000]" /> MANCHETE
               </span>
             </div>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+            <span className="text-xs text-slate-400 font-medium">
               {formatarTempoRelativo(noticiaHero.dataDePublicacao)}
             </span>
           </div>
 
-          <h2 className="hero-title">
+          <h2 className="text-xl md:text-3xl font-black text-slate-900 group-hover:text-[#cc0000] transition-colors leading-tight mb-3">
             {noticiaHero.nome}
           </h2>
 
           {noticiaHero.descricao && (
-            <p className="hero-description">
+            <p className="text-slate-600 text-sm md:text-base leading-relaxed line-clamp-3 mb-4">
               {noticiaHero.descricao}
             </p>
           )}
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border-light)', paddingTop: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              <Rss size={13} color="#c8102e" />
-              <span>Fonte: <strong style={{ color: 'var(--g1-dark)' }}>{noticiaHero.fonte || 'G1'}</strong></span>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4 text-xs">
+            <div className="flex items-center gap-2 text-slate-500 font-medium">
+              <Rss className="w-4 h-4 text-[#cc0000]" />
+              <span>Fonte: <strong className="text-slate-800">{noticiaHero.fonte || 'CNN Brasil'}</strong></span>
             </div>
 
-            <div style={{ display: 'flex', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
-              <button 
+            <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+              <button
                 type="button"
-                className="btn-g1-secondary"
                 onClick={(e) => copiarLink(e, noticiaHero.endereco)}
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1"
               >
-                <Copy size={13} /> Copiar
+                <Copy className="w-3.5 h-3.5" /> Copiar Link
               </button>
               <a
                 href={noticiaHero.endereco}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-g1-primary"
-                style={{ padding: '4px 10px', fontSize: '0.75rem' }}
+                className="px-3.5 py-1.5 rounded-lg bg-[#cc0000] hover:bg-red-700 text-white text-xs font-bold uppercase tracking-wider transition flex items-center gap-1 shadow-xs"
               >
-                Abrir Matéria <ArrowUpRight size={13} />
+                Ler Matéria Integra <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
-        </div>
+        </article>
       )}
 
       {demaisNoticias.length > 0 && (
-        <div className="news-table-desktop news-table-container">
-          <table className="news-table">
-            <thead>
-              <tr>
-                <th style={{ width: '45%' }}>Título & Resumo</th>
-                <th style={{ width: '18%' }}>Fonte</th>
-                <th style={{ width: '15%' }}>Editoria</th>
-                <th style={{ width: '14%' }}>Publicação</th>
-                <th style={{ width: '8%', textAlign: 'right' }}>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demaisNoticias.map((item, idx) => (
-                <tr
-                  key={item.id || idx}
-                  onClick={() => aoSelecionarNoticia(item)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <td>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                      <span className="news-item-title">
-                        {item.nome}
-                      </span>
-                      {item.descricao && (
-                        <span style={{
-                          fontSize: '0.8rem',
-                          color: 'var(--text-muted)',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                          lineHeight: '1.35'
-                        }}>
-                          {item.descricao}
-                        </span>
-                      )}
-                    </div>
-                  </td>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {demaisNoticias.map((item, idx) => (
+            <article
+              key={item.id || idx}
+              onClick={() => aoSelecionarNoticia(item)}
+              className="bg-white border border-slate-200 hover:border-[#cc0000] rounded-xl p-5 shadow-xs transition cursor-pointer flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider rounded ${getCategoriaBadgeClass(item.categoria)}`}>
+                    {item.categoria || 'Geral'}
+                  </span>
+                  <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-slate-400" />
+                    {formatarTempoRelativo(item.dataDePublicacao)}
+                  </span>
+                </div>
 
-                  <td>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.82rem', color: 'var(--text-dark)', fontWeight: '700' }}>
-                      <Rss size={13} color="#c8102e" />
-                      <span>{item.fonte || 'Geral'}</span>
-                    </div>
-                  </td>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-[#cc0000] transition-colors leading-snug line-clamp-2 mb-2">
+                  {item.nome}
+                </h3>
 
-                  <td>
-                    <span className={`badge-category ${getCategoriaClass(item.categoria)}`}>
-                      {item.categoria || 'Geral'}
-                    </span>
-                  </td>
+                {item.descricao && (
+                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-3">
+                    {item.descricao}
+                  </p>
+                )}
+              </div>
 
-                  <td>
-                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                      <Calendar size={13} color="#64748b" />
-                      <span>{formatarTempoRelativo(item.dataDePublicacao)}</span>
-                    </div>
-                  </td>
-
-                  <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '6px' }}>
-                      <button
-                        type="button"
-                        onClick={(e) => copiarLink(e, item.endereco)}
-                        title="Copiar Link"
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'var(--text-muted)',
-                          cursor: 'pointer',
-                          padding: '4px'
-                        }}
-                      >
-                        <Copy size={14} />
-                      </button>
-
-                      <a
-                        href={item.endereco}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Abrir matéria original"
-                        style={{
-                          color: 'var(--g1-red)',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          padding: '4px'
-                        }}
-                      >
-                        <ArrowUpRight size={16} />
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              <div className="flex items-center justify-between border-t border-slate-100 pt-3 text-[11px] mt-2">
+                <span className="text-slate-500 font-semibold truncate max-w-[140px]">
+                  {item.fonte || 'CNN'}
+                </span>
+                <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    onClick={(e) => copiarLink(e, item.endereco)}
+                    className="text-slate-400 hover:text-slate-700 transition"
+                    title="Copiar link"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                  <a
+                    href={item.endereco}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#cc0000] hover:underline font-bold flex items-center gap-0.5"
+                    title="Abrir no site original"
+                  >
+                    Abrir <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       )}
-
-      <div className="news-cards-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {demaisNoticias.map((item, idx) => (
-          <div
-            key={item.id || idx}
-            className="g1-panel"
-            style={{ padding: '14px', cursor: 'pointer' }}
-            onClick={() => aoSelecionarNoticia(item)}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-              <span className={`badge-category ${getCategoriaClass(item.categoria)}`}>
-                {item.categoria || 'Geral'}
-              </span>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                {formatarTempoRelativo(item.dataDePublicacao)}
-              </span>
-            </div>
-
-            <h4 style={{
-              fontSize: '0.98rem',
-              fontWeight: '800',
-              color: 'var(--g1-dark)',
-              marginBottom: '4px',
-              lineHeight: '1.3'
-            }}>
-              {item.nome}
-            </h4>
-
-            {item.descricao && (
-              <p style={{
-                fontSize: '0.8rem',
-                color: 'var(--text-muted)',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                lineHeight: '1.35',
-                marginBottom: '10px'
-              }}>
-                {item.descricao}
-              </p>
-            )}
-
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingTop: '8px',
-              borderTop: '1px solid var(--border-light)',
-              fontSize: '0.75rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-dark)', fontWeight: '700' }}>
-                <Rss size={12} color="#c8102e" />
-                <span>{item.fonte || 'Geral'}</span>
-              </div>
-
-              <div style={{ display: 'flex', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
-                <button 
-                  onClick={(e) => copiarLink(e, item.endereco)}
-                  style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontWeight: '700' }}
-                >
-                  Copiar
-                </button>
-                <a
-                  href={item.endereco}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'var(--g1-red)', fontWeight: '800', textDecoration: 'none' }}
-                >
-                  Abrir <ArrowUpRight size={12} style={{ verticalAlign: 'middle' }} />
-                </a>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <style>{`
-        @media (max-width: 767px) {
-          .news-table-desktop {
-            display: none !important;
-          }
-          .news-cards-mobile {
-            display: flex !important;
-          }
-        }
-        @media (min-width: 768px) {
-          .news-table-desktop {
-            display: block !important;
-          }
-          .news-cards-mobile {
-            display: none !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }
