@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { baixarFeedRSS } from "./leitorRSS"
-import { adicionarNoticia } from "./database"
+import { adicionarFonte, adicionarNoticia } from "./database"
 import { Noticia } from "./ClassesCriadas"
 
 export default function Exemplo({ children }) {
@@ -24,6 +24,8 @@ export default function Exemplo({ children }) {
       const res = await baixarFeedRSS(endereco);
 
       const listaDeNoticias = res.noticias;
+      const fontes = res.fonte;
+      await adicionarFonte(fontes);
 
       for (const noticia of listaDeNoticias) {
         const novaNoticia = new Noticia(
@@ -34,7 +36,6 @@ export default function Exemplo({ children }) {
           noticia.dataPublicacao,
           noticia.categorias
         );
-
         await adicionarNoticia(novaNoticia);
       }
 
