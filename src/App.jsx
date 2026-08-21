@@ -102,7 +102,11 @@ export default function App() {
       {erro && <p style={styles.erro}>{erro}</p>}
 
       <div style={styles.filtros}>
-        <select style={styles.select} value={filtroCategoria} onChange={(e) => setFiltroCategoria(e.target.value)}>
+        <select
+          style={styles.select}
+          value={filtroCategoria}
+          onChange={(e) => setFiltroCategoria(e.target.value)}
+        >
           {categorias.map((categoria) => (
             <option key={categoria} value={categoria}>
               {categoria}
@@ -110,7 +114,11 @@ export default function App() {
           ))}
         </select>
 
-        <select style={styles.select} value={filtroFonte} onChange={(e) => setFiltroFonte(e.target.value)}>
+        <select
+          style={styles.select}
+          value={filtroFonte}
+          onChange={(e) => setFiltroFonte(e.target.value)}
+        >
           {fontes.map((nome) => (
             <option key={nome} value={nome}>
               {nome}
@@ -135,9 +143,16 @@ export default function App() {
               <td style={styles.td}>{noticia.nome}</td>
               <td style={styles.td}>{noticia.fonte}</td>
               <td style={styles.td}>{noticia.categoria}</td>
-              <td style={styles.td}>{new Date(noticia.dataDePublicacao).toLocaleDateString()}</td>
               <td style={styles.td}>
-                <a style={styles.link} href={noticia.endereco} target="_blank" rel="noreferrer">
+                {new Date(noticia.dataDePublicacao).toLocaleDateString()}
+              </td>
+              <td style={styles.td}>
+                <a
+                  style={styles.link}
+                  href={noticia.endereco}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Ler
                 </a>
               </td>

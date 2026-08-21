@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { adicionarFonte, listarFontes, adicionarNoticia, listarNoticias } from "./database";
+import {
+  adicionarFonte,
+  listarFontes,
+  adicionarNoticia,
+  listarNoticias,
+} from "./database";
 import { baixarFeedRSS } from "./leitorRSS";
 
 export function useAgregador() {
@@ -62,7 +67,8 @@ export function useAgregador() {
   const fontes = ["Todas", ...new Set(noticias.map((n) => n.fonte))];
 
   const noticiasFiltradas = noticias.filter((n) => {
-    const categoriaOk = filtroCategoria === "Todas" || n.categoria === filtroCategoria;
+    const categoriaOk =
+      filtroCategoria === "Todas" || n.categoria === filtroCategoria;
     const fonteOk = filtroFonte === "Todas" || n.fonte === filtroFonte;
     return categoriaOk && fonteOk;
   });
