@@ -18,11 +18,11 @@ export default function Header({ totalNoticias, totalFontes, aoAtualizarFeeds, a
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', gap: '15px' }}>
           <span style={{ color: '#E2A300' }}>INGRESSO.COM</span>
           <span>BATE-PAPO</span>
-          <span>UOL HOST</span>
+          <span>NEWSPLEZE HOST</span>
           <span>PASSEI DIRETO</span>
-          <span>UOL PLAY</span>
+          <span>NEWSPLEZE PLAY</span>
           <span>PAGBANK</span>
-          <span>UOL ADS</span>
+          <span>NEWSPLEZE ADS</span>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ export default function Header({ totalNoticias, totalFontes, aoAtualizarFeeds, a
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <div style={{ position: 'relative' }}>
-              <span style={{ color: '#E2A300', fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-0.05em' }}>UOL</span>
+              <span style={{ color: '#E2A300', fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-0.05em' }}>NEWSPLEZE</span>
               <span style={{ position: 'absolute', bottom: '-2px', left: '0', fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.2em' }}>NOTÍCIAS</span>
             </div>
             
@@ -72,9 +72,9 @@ export default function Header({ totalNoticias, totalFontes, aoAtualizarFeeds, a
               </button>
             )}
 
-            {/* Fake Search bar from UOL */}
+            {/* Fake Search bar from NEWSPLEZE */}
             <div style={{ display: 'flex', alignItems: 'center', background: '#f5f5f5', padding: '6px 12px', border: '1px solid #eaeaea', color: '#999', fontSize: '0.75rem', gap: '6px', marginLeft: '10px' }}>
-              <span style={{ fontWeight: 'bold' }}>BUSCAR NO UOL</span>
+              <span style={{ fontWeight: 'bold' }}>BUSCAR NO NEWSPLEZE NOTÍCIAS</span>
             </div>
           </div>
         </div>

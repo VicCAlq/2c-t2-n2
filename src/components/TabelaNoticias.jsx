@@ -75,7 +75,7 @@ export default function TabelaNoticias({ noticias, aoSelecionarNoticia, aoLimpar
             {/* Fake Canal UOL Block */}
             <div style={{ border: '1px solid #e5e5e5', background: '#f9f9f9', height: '250px', position: 'relative' }}>
               <div style={{ background: '#c8102e', color: '#fff', padding: '8px 12px', fontWeight: 'bold', fontSize: '0.8rem', display: 'flex', justifyContent: 'space-between' }}>
-                <span>canal uol</span>
+                <span>canal NEWSPLEZE</span>
                 <span style={{ fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: '4px' }}><span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: '#fff' }}></span> AO VIVO</span>
               </div>
               <div style={{ padding: '20px', textAlign: 'center', color: '#aaa', fontSize: '0.8rem', marginTop: '50px' }}>
