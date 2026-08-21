@@ -31,7 +31,7 @@ function lerRSS(textoXML) {
 
   const parseErro = doc.querySelector('parsererror');
   if (parseErro) {
-    throw new Erro('XML inválido: não foi possível parsear o feed.');
+    throw new Error('XML inválido: não foi possível parsear o feed.');
   }
 
   const formatoAtom = doc.documentElement.nodeName === 'feed';
@@ -88,8 +88,8 @@ function lerRSS(textoXML) {
   }
 
   return {
-    titulo: title || 'Sem título',
-    descricao: description || '',
+    titulo: titulo || 'Sem título',
+    descricao: descricao || '',
     link: link || '',
     noticias: noticias.slice(0, 50),
   };
