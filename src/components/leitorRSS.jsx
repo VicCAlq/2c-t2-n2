@@ -17,10 +17,17 @@ async function fetchComProxy(endereco) {
       });
 
       if (!resposta.ok) {
-        erroMaisRecente = new Error(`HTTP ${resposta.status}`);
+        erroMaisRecente = new Error(`HTTP ${resposta.status} em ${proxy}`);
+        continue;
       }
 
       const texto = await resposta.text();
+
+      if (!texto || !texto.trim().startsWith('<')) {
+        erroMaisRecente = new Error(`Resposta inválida de ${proxy}`);
+        continue;
+      }
+
       return texto;
 
     } catch (err) {
@@ -28,7 +35,7 @@ async function fetchComProxy(endereco) {
     }
   }
 
-  throw erroMaisRecente || new Error('Não foi possível carregar o feed. Verifique a Endereco e tente novamente.');
+  throw erroMaisRecente || new Error('Não foi possível carregar o feed. Verifique o endereço e tente novamente.');
 }
 
 function lerRSS(textoXML) {
