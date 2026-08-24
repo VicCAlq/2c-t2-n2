@@ -95,7 +95,7 @@ function lerRSS(textoXML) {
 
   return {
     fonte: {
-      titulo: titulo || 'Sem título',
+      nome: titulo || 'Sem título',
       descricao: descricao || '',
       link: link || '',
     },

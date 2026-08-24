@@ -11,10 +11,55 @@ body {
   color: #1f2937;
 }
 
+.fonteNoticia {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  height: 46px;
+  padding: 0 40px 0 14px;
+  margin-left: 8px;
+  margin-top: 10px;
+
+  font-family: inherit;
+  font-size: 15px;
+  color: #1f2937;
+
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%2312355b' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.fonteNoticia:hover {
+  border-color: #087f8c;
+}
+
+.fonteNoticia:focus {
+  outline: none;
+  border-color: #087f8c;
+  box-shadow: 0 0 0 3px rgb(8 127 140 / 15%);
+}
+
+.fonteNoticia option {
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+label[for="fonteNoticia"] {
+  font-weight: 500;
+  color: #12355b;
+}
+
 .app {
   min-height: 100vh;
   padding: 30px 20px;
-  animation: aparecer 2s ease-out;
 }
 
 .noticia-importada {
@@ -158,8 +203,8 @@ body {
 }
 
 .mensagem-erro-container {
-    width: 600px;
-    margin-left: 20%;
+  width: 600px;
+  margin-left: 20%;
   background-color: #ff0000;
   box-shadow: 0 1px 20px 2px rgb(255 0 0 / 45%);
   border-radius: 10px;
@@ -181,8 +226,6 @@ body {
   margin: 30px auto;
   overflow-x: auto;
   border-radius: 25px;
-  animation: aparecer 2s ease-out;
-  animation: aparecerEBalancear 7s alternate infinite;
 }
 
 .tabela {
@@ -233,43 +276,5 @@ body {
 
   .mensagem-erro-container {
     width: 100%;
-  }
-}
-
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes aparecerEBalancear {
-  0% {
-    transform: translateX(0);
-  }
-
-  43% {
-    transform: translateX(0);
-  }
-
-  58% {
-    transform: translateX(-10px);
-  }
-
-  72% {
-    transform: translateX(10px);
-  }
-
-  86% {
-    transform: translateX(-6px);
-  }
-
-  100% {
-    transform: translateX(0);
   }
 }

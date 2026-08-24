@@ -14,7 +14,7 @@ function connectarDB() {
       if (!db.objectStoreNames.contains('noticias')) {
         const noticias = db.createObjectStore('noticias', { keyPath: 'id', autoIncrement: true });
         noticias.createIndex('nome', 'nome', { unique: false });
-        noticias.createIndex('fonte', 'fonte', { unique: false });
+        noticias.createIndex('nomeFonte', 'nomeFonte', { unique: false });
         noticias.createIndex('categorias', 'categorias', { unique: false });
         noticias.createIndex('dataPublicacao', 'dataPublicacao', { unique: false });
       }
@@ -49,7 +49,7 @@ async function listarNoticias() {
 
 async function filtrarNoticiasPorFonte(fonte) {
   const db = await connectarDB();
-  return db.getAllFromIndex('noticias', 'fonte', fonte);
+  return db.getAllFromIndex('noticias', 'nomeFonte', fonte);
 }
 
 async function filtrarNoticiasPorCategoria(categoria) {

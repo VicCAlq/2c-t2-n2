@@ -29,13 +29,14 @@ export default function Exemplo({ children }) {
 
       for (const noticia of listaDeNoticias) {
         const novaNoticia = new Noticia(
-          noticia.titulo,
-          res.fonte.titulo,
-          noticia.link,
-          noticia.descricao,
-          noticia.dataPublicacao,
-          noticia.categorias
-        );
+        noticia.titulo,
+        res.fonte.nome,
+        noticia.link,
+        noticia.descricao,
+        noticia.dataPublicacao,
+        noticia.categorias
+      );
+
         await adicionarNoticia(novaNoticia);
       }
 
@@ -46,7 +47,7 @@ export default function Exemplo({ children }) {
               key={noticia.link}
               className="noticia-importada"
             >
-              <p>{res.fonte.titulo}</p>
+              <p>{res.fonte.nome}</p>
               <h3>{noticia.titulo}</h3>
             </div>
           ))}
