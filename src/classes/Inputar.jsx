@@ -1,17 +1,25 @@
-import React from 'react';
+import { useState } from "react";
 
 export function InputComBotao({ meConfirma }) {
-    return (
-        <div style={{ display: 'flex', gap: '8px' }}>
-            <input
-                type="text"
-                placeholder="Escreva aqui ó"
-                id="meuCampoDeTexto"
-            />
+  const [valor, setValor] = useState("");
 
-            <button
-                onClick={() =>
-                    meConfirma(document.getElementById('meuCampoDeTexto').value)}>Enviar</button>
-        </div>
-    );
+  return (
+    <div style={{ display: "flex", gap: "8px" }}>
+      <input
+        type="text"
+        placeholder="Cole o link RSS aqui"
+        value={valor}
+        onChange={(e) => setValor(e.target.value)}
+      />
+
+      <button
+        onClick={() => {
+          meConfirma(valor);
+          setValor("");
+        }}
+      >
+        Enviar
+      </button>
+    </div>
+  );
 }
